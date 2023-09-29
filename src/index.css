@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  @apply h-screen w-screen flex justify-center items-center bg-black text-white;
+}
+
+input {
+  @apply outline-none text-black;
+}
+
+@keyframes dropdown-open {
+  from {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+@keyframes dropdown-close {
+  from {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  to {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+}
+
+.animate-dropdown {
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.animate-dropdown-enter {
+  animation-name: dropdown-open;
+}
+
+.animate-dropdown-exit {
+  animation-name: dropdown-close;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
