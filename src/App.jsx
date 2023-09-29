@@ -17,7 +17,7 @@ function App() {
   const [newMessages, setNewMessages] = useState({});
 
   const user = useSelector((state) => state.user);
-
+  console.log("a");
   return (
     <>
       <AppContext.Provider
