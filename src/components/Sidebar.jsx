@@ -104,7 +104,7 @@ function Sidebar() {
   });
 
   function getRooms() {
-    fetch("http://localhost:4000/rooms")
+    fetch("https://socketio-chat-app-nskb.onrender.com/rooms")
       .then((res) => res.json())
       .then((data) => setRooms(data));
   }
