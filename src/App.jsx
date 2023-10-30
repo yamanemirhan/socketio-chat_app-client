@@ -4,9 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import HomeLayout from "./layouts/HomeLayout";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
-import Settings from "./pages/Settings";
 import { AppContext, socket } from "./context/appContext";
-import { useSelector } from "react-redux";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [rooms, setRooms] = useState([]);
@@ -16,8 +15,6 @@ function App() {
   const [privateMemberMsg, setPrivateMemberMsg] = useState({});
   const [newMessages, setNewMessages] = useState({});
 
-  const user = useSelector((state) => state.user);
-  console.log("a");
   return (
     <>
       <AppContext.Provider
@@ -38,11 +35,13 @@ function App() {
         }}
       >
         <Routes>
-          {!user && <Route path="/auth" element={<Auth />} />}
+          <Route path="/auth" element={<Auth />} />
+
           <Route path="/" element={<HomeLayout />}>
             <Route index={true} element={<Home />} />
-            <Route path="settings" element={<Settings />} />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AppContext.Provider>
       <Toaster />

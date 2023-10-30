@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoginUserMutation, useSignupUserMutation } from "../services/api";
 import { newToast } from "../services/toast";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Auth() {
   const [username, setUsername] = useState("");
@@ -9,6 +11,16 @@ function Auth() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [isLogin, setIsLogin] = useState(true);
+
+  const isLoggedIn = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const [signupUser, { isLoading: isLoadingSignup, error: errorSignup }] =
     useSignupUserMutation();
@@ -26,9 +38,8 @@ function Auth() {
     // signup the user
     signupUser({ username, email, password }).then(({ data }) => {
       if (data) {
-        console.log(data);
-        newToast("a", "green");
-        // navigate("/chat");
+        newToast(data.message, "green");
+        setIsLogin(true);
       }
     });
   };
@@ -38,9 +49,8 @@ function Auth() {
     // login the user
     loginUser({ username, password }).then(({ data }) => {
       if (data) {
-        console.log(data);
-        newToast("a", "green");
-        // navigate("/chat");
+        newToast(data.message, "green");
+        navigate("/");
       }
     });
   };
@@ -70,7 +80,16 @@ function Auth() {
         {/* show login or register */}
         {isLogin ? (
           <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full">
-            {errorLogin && <p className="text-red-500">{errorLogin.data}</p>}
+            <div>
+              <p>username: test</p>
+              <p>password: 123456</p>
+            </div>
+
+            {errorLogin && (
+              <p className="text-red-500">
+                {errorLogin.data?.message || errorLogin.data}
+              </p>
+            )}
             <div className="flex flex-col gap-1">
               <label htmlFor="username">Username</label>
               <input
@@ -104,7 +123,11 @@ function Auth() {
           </form>
         ) : (
           <form onSubmit={handleSignup} className="flex flex-col gap-2 w-full">
-            {errorSignup && <p className="text-red-500">{errorSignup.data}</p>}
+            {errorSignup && (
+              <p className="text-red-500">
+                {errorSignup.data?.message || errorSignup.data}
+              </p>
+            )}
             <div className="flex flex-col gap-1">
               <label htmlFor="username">Username</label>
               <input
