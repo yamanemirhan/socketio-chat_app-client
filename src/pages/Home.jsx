@@ -104,7 +104,7 @@ function Home() {
         <input
           type="text"
           id="msgInput"
-          placeholder="Write..."
+          placeholder="Type here..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="w-full rounded-lg px-2"
